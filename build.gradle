@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'antlr'
+}
+
+group = 'org.compilers'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.antlr/antlr4
+    antlr 'org.antlr:antlr4:4.13.1'
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation 'com.google.guava:guava:33.0.0-jre'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// "-atn"
+// "-Werror"
+generateGrammarSource {
+//    maxHeapSize = "2048m"
+    arguments += ["-visitor", "-long-messages", "-Xlog"]
+    // see https://discuss.gradle.org/t/using-gradle-2-10s-antlr-plugin-to-import-an-antlr-4-lexer-grammar-into-another-grammar/14970/8
+    arguments << "-lib" << "src/main/antlr/simpleexpr"
+}
