@@ -12,7 +12,7 @@ public class KeywordTable {
   }
 
   public Token getKeyword(String text) {
-    return this.keywords.get(text);
+    return keywords.get(text);
   }
 
   private void reserve(Token token) {
