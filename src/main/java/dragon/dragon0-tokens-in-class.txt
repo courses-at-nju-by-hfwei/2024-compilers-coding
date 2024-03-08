@@ -1,0 +1,73 @@
+token {type : IF, text : if}
+token {type : ID, text : happy}
+token {type : ID, text : hello}
+token {type : ELSE, text : else}
+token {type : ID, text : world}
+token {type : LT, text : <}
+token {type : LT, text : <}
+token {type : LE, text : <=}
+token {type : LE, text : <=}
+token {type : EQ, text : =}
+token {type : GT, text : >}
+token {type : GT, text : >}
+token {type : GT, text : >}
+token {type : GE, text : >=}
+token {type : EQ, text : =}
+token {type : EQ, text : =}
+53:55
+token {type : INT, text : 123}
+token {type : ID, text : xyz}
+61:63
+token {type : INT, text : 123}
+token {type : DOT, text : .}
+token {type : ID, text : xyz}
+70:72
+token {type : INT, text : 123}
+token {type : ID, text : Ex}
+77:79
+token {type : INT, text : 123}
+token {type : ID, text : E}
+token {type : POS, text : +}
+86:91
+token {type : REAL, text : 123.45}
+token {type : ID, text : xyz}
+97:102
+token {type : REAL, text : 123.45}
+token {type : ID, text : E}
+token {type : POS, text : +}
+107:112
+token {type : REAL, text : 123.45}
+token {type : ID, text : Exyz}
+121:126
+token {type : REAL, text : 123.45}
+token {type : ID, text : E}
+token {type : POS, text : +}
+token {type : ID, text : xyz}
+134:143
+token {type : SCI, text : 123.45E+67}
+146:154
+token {type : SCI, text : 123.45E67}
+token {type : ID, text : xyz}
+162:167
+token {type : SCI, text : 123E67}
+token {type : ID, text : xyz}
+173:175
+token {type : INT, text : 123}
+token {type : ID, text : E}
+token {type : POS, text : +}
+token {type : ID, text : xyz}
+183:189
+token {type : SCI, text : 123E+67}
+token {type : ID, text : xyz}
+197:206
+token {type : SCI, text : 123.45E-67}
+209:214
+token {type : REAL, text : 123.45}
+token {type : NEG, text : -}
+216:217
+token {type : INT, text : 67}
+222:224
+token {type : INT, text : 123}
+token {type : GT, text : >}
+226:231
+token {type : REAL, text : 122.57}
