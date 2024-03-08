@@ -26,40 +26,57 @@ public class DragonLexer extends Lexer {
       switch (state) {
         case 13:
           if (Character.isDigit(peek)) {
+            advance();
           } else if (peek == '.') {
+            state = 14;
+            advance();
           } else if (peek == 'E' || peek == 'e') {
+            state = 16;
+            advance();
           } else {
           }
           break;
         case 14:
           if (Character.isDigit(peek)) {
+            state = 15;
+            advance();
           } else {
           }
           break;
         case 15:
           if (Character.isDigit(peek)) {
+            advance();
           } else if (peek == 'E' || peek == 'e') {
-          } else { // recognize a REAL
+            state = 16;
+            advance();
+          } else {
           }
           break;
         case 16:
           if (peek == '+' || peek == '-') {
+            state = 17;
+            advance();
           } else if (Character.isDigit(peek)) {
+            state = 18;
+            advance();
           } else {
           }
           break;
         case 17:
           if (Character.isDigit(peek)) {
+            state = 18;
+            advance();
           } else {
           }
           break;
         case 18:
           if (Character.isDigit(peek)) {
+            advance();
           } else {
           }
           break;
         default:
-          System.err.println("Unreachable!");
+          System.err.println("Unreachable");
       }
     }
   }
