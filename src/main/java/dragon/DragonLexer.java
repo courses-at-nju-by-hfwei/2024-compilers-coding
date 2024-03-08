@@ -13,11 +13,55 @@ public class DragonLexer extends Lexer {
       return Token.EOF;
     }
 
-    return null;
+    Token token = null;
+
+    return token;
   }
 
   private Token NUMBER() {
-    return null;
+    int state = 13;
+    advance();
+
+    while (true) {
+      switch (state) {
+        case 13:
+          if (Character.isDigit(peek)) {
+          } else if (peek == '.') {
+          } else if (peek == 'E' || peek == 'e') {
+          } else {
+          }
+          break;
+        case 14:
+          if (Character.isDigit(peek)) {
+          } else {
+          }
+          break;
+        case 15:
+          if (Character.isDigit(peek)) {
+          } else if (peek == 'E' || peek == 'e') {
+          } else { // recognize a REAL
+          }
+          break;
+        case 16:
+          if (peek == '+' || peek == '-') {
+          } else if (Character.isDigit(peek)) {
+          } else {
+          }
+          break;
+        case 17:
+          if (Character.isDigit(peek)) {
+          } else {
+          }
+          break;
+        case 18:
+          if (Character.isDigit(peek)) {
+          } else {
+          }
+          break;
+        default:
+          System.err.println("Unreachable!");
+      }
+    }
   }
 
   private Token WS() {
@@ -28,5 +72,10 @@ public class DragonLexer extends Lexer {
   private Token ID() {
 
     return null;
+  }
+
+  private Token RELOP() {
+
+    return RELOP();
   }
 }
