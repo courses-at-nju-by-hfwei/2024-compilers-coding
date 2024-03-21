@@ -1,0 +1,7 @@
+int main() {
+  if 1
+  then a + b;
+    if 2
+    then a - b;
+    else x + y;
+}
