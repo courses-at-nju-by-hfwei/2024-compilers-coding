@@ -25,11 +25,11 @@ public class CallGraph {
     CymbolParser parser = new CymbolParser(tokens);
     ParseTree tree = parser.prog();
 
-//    ParseTreeWalker walker = new ParseTreeWalker();
-//    FunctionCallListener fc = new FunctionCallListener();
-//    walker.walk(fc, tree);
-//
-//    Path fileName = Path.of("src/main/antlr/cymbol/functioncall.dot");
-//    Files.writeString(fileName, fc.getGraph().toDot());
+    ParseTreeWalker walker = new ParseTreeWalker();
+    FunctionCallGraphListener fc = new FunctionCallGraphListener();
+    walker.walk(fc, tree);
+
+    Path fileName = Path.of("src/main/antlr/cymbol/functioncall.dot");
+    Files.writeString(fileName, fc.getGraph().toDot());
   }
 }

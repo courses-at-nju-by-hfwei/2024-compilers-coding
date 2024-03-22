@@ -19,55 +19,61 @@ type : 'int' | 'double' | 'void' ;
 
 functionDecl : type ID '(' formalParameters? ')' block ;
 
+// fp: int x
+// fp(, fp)(, fp)(, fp), fp, fp
+// fps : fps ',' fp
+//     | fp
+//     ;
 formalParameters : formalParameter (',' formalParameter)* ;
 
 formalParameter : type ID ;
 
 block : '{' stat* '}' ;
 
-stat : block
-     | varDecl
-     | 'if' expr 'then' stat ('else' stat)?
-     | 'return' expr? ';'
-     | expr '=' expr ';'
-     | expr ';'
+stat : block    # BlockStat
+     | varDecl  # VarDeclStat
+     | 'if' expr 'then' stat ('else' stat)? # IfStat
+     | 'return' expr? ';'   # ReturnStat
+     | expr '=' expr ';'    # AssignStat
+     | expr ';' # ExprStat
      ;
 
-expr: ID '(' exprList? ')'
-    | expr '[' expr ']'
-    | '-' expr
-    | '!' expr
-    | expr '^' expr
-    | expr ('*' | '/') expr
-    | expr ('+' | '-') expr
-    | expr ('==' | '!=') expr
-    | '(' expr ')'
-    | ID
-    | INT
+expr: ID '(' exprList? ')'    # Call // function call
+    | expr '[' expr ']'       # Index // array subscripts
+    | op = '-' expr                # Negate // right association
+    | op = '!' expr                # Not // right association
+    | <assoc = right> expr '^' expr # Power
+    | lhs = expr (op = '*' | op = '/') rhs = expr     # MultDiv
+    | lhs = expr (op = '+' | op = '-') rhs = expr     # AddSub
+    | lhs = expr (op = '==' | op = '!=') rhs = expr  # EQNE
+    | '(' expr ')'            # Parens
+    | ID                      # Id
+    | INT                     # Int
     ;
+
+//stat : block
+//     | varDecl
+//     | 'if' expr 'then' stat ('else' stat)?
+//     | 'return' expr? ';'
+//     | expr '=' expr ';'
+//     | expr ';'
+//     ;
+//
+//expr: ID '(' exprList? ')'  // function call
+//    | expr '[' expr ']'     // subscript a[i]; a[i][j]
+//    | '-' expr
+//    | '!' expr
+//    | <assoc = right> expr '^' expr
+//    | expr ('*' | '/') expr
+//    | expr ('+' | '-') expr
+//    | expr ('==' | '!=') expr
+//    | '(' expr ')'
+//    | ID
+//    | INT
+//    ;
 
 exprList : expr (',' expr)* ;
 ////////////////////////////////////////////
-//stat : block    # BlockStat
-//     | varDecl  # VarDeclStat
-//     | 'if' expr 'then' stat ('else' stat)? # IfStat
-//     | 'return' expr? ';'   # ReturnStat
-//     | expr '=' expr ';'    # AssignStat
-//     | expr ';' # ExprStat
-//     ;
-
-//expr: ID '(' exprList? ')'    # Call // function call
-//    | expr '[' expr ']'       # Index // array subscripts
-//    | op = '-' expr                # Negate // right association
-//    | op = '!' expr                # Not // right association
-//    | <assoc = right> expr '^' expr # Power
-//    | lhs = expr (op = '*' | op = '/') rhs = expr     # MultDiv
-//    | lhs = expr (op = '+' | op = '-') rhs = expr     # AddSub
-//    | lhs = expr (op = '==' | op = '!=') rhs = expr  # EQNE
-//    | '(' expr ')'            # Parens
-//    | ID                      # Id
-//    | INT                     # Int
-//    ;
 ////////////////////////////////////////////
 // You can use "Alt + Insert" to automatically generate
 // the following lexer rules for literals in the grammar above.
