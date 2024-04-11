@@ -1,4 +1,2 @@
 int x = y;
-f(int x = y)
-int x;
 f(int x)

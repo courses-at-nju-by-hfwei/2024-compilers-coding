@@ -1,0 +1,12 @@
+int x;
+int y;
+
+void a() {
+  int x;
+  x = 1;
+  y = 2;
+}
+
+void b(int z) {
+
+}
