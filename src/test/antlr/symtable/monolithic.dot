@@ -1,0 +1,9 @@
+digraph G {
+  rankdir = BT
+  ranksep = 0.25
+  edge [arrowsize = 0.5]
+  node [shape = none]
+
+GlobalScope [label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD COLSPAN = "6">GlobalScope</TD></TR><TR><TD>int</TD><TD>double</TD><TD>void</TD><TD>i</TD><TD>j</TD><TD>kk</TD></TR></TABLE>>];
+
+}
