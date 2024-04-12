@@ -36,27 +36,10 @@ public class BaseScope implements Scope {
 
   @Override
   public void define(Symbol symbol) {
-    if (symbols.containsKey(symbol.getName())) {
-      System.out.println("++" + symbol);
-    } else {
-      symbols.put(symbol.getName(), symbol);
-      System.out.println("+" + symbol);
-    }
   }
 
   @Override
   public Symbol resolve(String name) {
-    Symbol symbol = symbols.get(name);
-    if (symbol != null) {
-      System.out.println("*" + symbol);
-      return symbol;
-    }
-
-    if (enclosingScope != null) {
-      return enclosingScope.resolve(name);
-    }
-
-    System.err.println("?" + name);
     return null;
   }
 
