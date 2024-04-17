@@ -1,5 +1,8 @@
 package ag.expr;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -18,11 +21,11 @@ public class ExprCalcAGTest {
 
   @Test
   public void testExprCalcAG() throws IOException {
-//    CharStream input = CharStreams.fromStream(is);
-//    ExprCalcAGLexer lexer = new ExprCalcAGLexer(input);
-//    CommonTokenStream tokens = new CommonTokenStream(lexer);
-//
-//    ExprCalcAGParser parser = new ExprCalcAGParser(tokens);
-//    parser.prog();
+    CharStream input = CharStreams.fromStream(is);
+    ExprCalcAGLexer lexer = new ExprCalcAGLexer(input);
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+    ExprCalcAGParser parser = new ExprCalcAGParser(tokens);
+    parser.prog();
   }
 }
