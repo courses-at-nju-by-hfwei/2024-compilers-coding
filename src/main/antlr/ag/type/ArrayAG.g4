@@ -6,47 +6,48 @@ import java.util.*;
 }
 
 @parser::members {
-private Map<String, String> typeMap = new HashMap<>();
+private Map<String, String> symbols = new HashMap<>();
 }
 
 prog : stat* EOF ;
 
 stat : varDecl
         { String id = $varDecl.ctx.ID().getText();
-          System.out.println(id + " : " + typeMap.get(id)); }
+          System.out.println(id + " : " + symbols.get(id));
+        }
      | arrDecl
         { String id = $arrDecl.ctx.ID().getText();
-          System.out.println(id + " : " + typeMap.get(id)); }
+          System.out.println(id + " : " + symbols.get(id));
+        }
      | lhs = expr '=' rhs = expr ';'
-        {  System.out.println($lhs.type + " <=> " + $rhs.type); }
+        { System.out.println($lhs.type + " <=> " + $rhs.type); }
      ;
 
-varDecl : basicType ID ';'
-    { typeMap.put($ID.text, $basicType.text); };
+varDecl : basicType ID ';' { symbols.put($ID.text, $basicType.text); } ;
 basicType : 'int' | 'float' ;
 
-// OR: type ID ('[' INT ']')* ';'
 arrDecl : basicType ID arrayType[$basicType.text]
-  { typeMap.put($ID.text, $arrayType.array_type); }
-  ';' ;
-arrayType[String basic_type]
-    returns [String array_type]
-  : '[' INT ']' arrayType[$basic_type]
-     { $array_type = "(" + $INT.int + ", " + $arrayType.array_type + ")"; }
-  |  { $array_type = $basic_type; }
-  ;
+            { symbols.put($ID.text, $arrayType.type); } ';' ;
 
+arrayType[String basic_type]
+    returns [String type]
+          : '[' INT ']' arrayType[$basic_type]
+            { $type = "(" + $INT.text + ", " + $arrayType.type + ")"; }
+          | { $type = $basic_type; }
+          ;
+
+//expr: primary = expr '[' subscript = expr ']'
 expr returns [String type]
-    : ID { String expr_type = typeMap.get($ID.text); }
-      ('[' INT ']'
+     : ID { String expr_type = symbols.get($ID.text); }
+       ('[' INT ']'
          {
            int start = expr_type.indexOf(',');
            int end = expr_type.lastIndexOf(')');
            expr_type = expr_type.substring(start + 1, end);
          }
-      )* { $type = expr_type; }
-    | ID { $type = typeMap.get($ID.text); }
-    | INT { $type = "int"; }
+      )+    { $type = expr_type; }
+    | ID    { $type = symbols.get($ID.text); }
+    | INT   { $type = "int"; }
     ;
 
 ID : [a-z]+ ;

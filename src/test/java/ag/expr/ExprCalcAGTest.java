@@ -16,7 +16,7 @@ public class ExprCalcAGTest {
 
   @BeforeMethod
   public void setUp() throws IOException {
-    is = new FileInputStream(Path.of("src/test/antlr/ag/expr.txt").toFile());
+    is = new FileInputStream(Path.of("src/test/antlr/ag/expr/expr.txt").toFile());
   }
 
   @Test

@@ -4,14 +4,13 @@ grammar VarsDeclStar;
 package ag.type;
 }
 
-decl : type vars[$type.text] ;
+decl : type vars;
+
 type : 'int'
      | 'float'
      ;
 
-vars[String typeStr]
-    : ID { System.out.println($ID.text + " : " + $typeStr); }
-      (',' ID { System.out.println($ID.text + " : " + $typeStr); })* ;
+vars : ID (',' ID)* ;
 
 ID : [a-z]+ ;
 WS : [ \t\r\n]+ -> skip ;

@@ -5,16 +5,14 @@ package ag.type;
 }
 
 decl : type vars ;
-type : ;
-vars : ;
-//type : 'int'
-//     | 'float'
-//     ;
-//vars[String typeStr]
-//     : vars[$typeStr] ',' ID
-//            { System.out.println($ID.text + ":" + $typeStr); }
-//     | ID   { System.out.println($ID.text + ":" + $typeStr); }
-//     ;
+
+type : 'int'        # IntType
+     | 'float'      # FloatType
+     ;
+
+vars : vars ',' ID  # VarsList
+     | ID           # VarsID
+     ;
 
 ID : [a-z]+ ;
 WS : [ \t\r\n]+ -> skip ;

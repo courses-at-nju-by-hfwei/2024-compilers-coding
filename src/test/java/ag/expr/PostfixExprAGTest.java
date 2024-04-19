@@ -16,7 +16,7 @@ public class PostfixExprAGTest {
 
   @BeforeMethod
   public void setUp() throws IOException {
-    is = new FileInputStream(Path.of("src/test/antlr/ag/postfix.txt").toFile());
+    is = new FileInputStream(Path.of("src/test/antlr/ag/expr/postfix.txt").toFile());
   }
 
   @Test

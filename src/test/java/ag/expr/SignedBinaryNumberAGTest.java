@@ -16,7 +16,7 @@ public class SignedBinaryNumberAGTest {
 
   @BeforeMethod
   public void setUp() throws IOException {
-    is = new FileInputStream(Path.of("src/test/antlr/ag/binary.txt").toFile());
+    is = new FileInputStream(Path.of("src/test/antlr/ag/expr/binary.txt").toFile());
   }
 
   @Test
