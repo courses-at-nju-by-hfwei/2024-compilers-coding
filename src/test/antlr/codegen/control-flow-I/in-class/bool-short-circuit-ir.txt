@@ -1,0 +1,18 @@
+begin1
+t1 = true
+br t1 b1.true2 b1.false3
+b1.true2:
+t2 = false
+t3 = AND t1 t2
+br b1.end4
+b1.false3:
+t3 = false
+b1.end4:
+br t3 b.true5 b.false6
+b.true5:
+t4 = 1
+a = t4
+br begin1
+b.false6:
+t5 = 2
+a = t5

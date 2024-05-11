@@ -1,0 +1,8 @@
+t1 = true
+br t1 b.true1 b.false2
+b.true1:
+t2 = b
+a = t2
+t3 = c
+b = t3
+b.false2:

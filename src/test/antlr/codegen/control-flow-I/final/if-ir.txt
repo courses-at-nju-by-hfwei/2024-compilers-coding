@@ -1,0 +1,24 @@
+t1 = true
+br t1 b.true1 b.false2
+b.true1:
+t2 = b
+a = t2
+t3 = c
+b = t3
+t4 = false
+br t4 b.true4 b.false5
+b.true4:
+t5 = 1
+x = t5
+t6 = 2
+y = t6
+br b.end6
+b.false5:
+t7 = 3
+z = t7
+b.end6:
+br b.end3
+b.false2:
+t8 = d
+c = t8
+b.end3:

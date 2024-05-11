@@ -1,0 +1,20 @@
+begin1
+t1 = true
+br t1 b.true2 b.false3
+b.true2:
+t2 = 1
+a = t2
+t3 = true
+br t3 b.true4 b.false5
+b.true4:
+t4 = 2
+b = t4
+br b.end6
+b.false5:
+t5 = 3
+c = t5
+b.end6:
+br begin1
+b.false3:
+t6 = 4
+d = t6

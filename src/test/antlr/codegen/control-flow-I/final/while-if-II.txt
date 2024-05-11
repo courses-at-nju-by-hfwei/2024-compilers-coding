@@ -1,0 +1,5 @@
+while (true) {
+  if (false) {
+    x = 1;
+  }
+}

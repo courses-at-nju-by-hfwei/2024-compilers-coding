@@ -1,0 +1,4 @@
+while (true && false) {
+  a = 1;
+}
+a = 2;

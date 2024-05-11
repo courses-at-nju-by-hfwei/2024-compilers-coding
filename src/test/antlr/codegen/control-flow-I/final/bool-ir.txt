@@ -1,0 +1,33 @@
+t1 = true
+t2 = NOT t1
+br t2 or.true1 or.false2
+or.false2:
+t3 = false
+br t3 b1.true4 b1.false5
+b1.true4:
+t4 = true
+t5 = AND t3 t4
+br b1.end6
+b1.false5:
+t5 = false
+b1.end6:
+t6 = OR t2 t5
+br or.end3
+or.true1:
+t6 = true
+or.end3:
+br t6 or.true7 or.false8
+or.false8:
+t7 = a
+t8 = b
+t9 = icmp sgt t7 t8
+t10 = OR t6 t9
+br or.end9
+or.true7:
+t10 = true
+or.end9:
+br t10 b.true10 b.false11
+b.true10:
+t11 = b
+a = t11
+b.false11:

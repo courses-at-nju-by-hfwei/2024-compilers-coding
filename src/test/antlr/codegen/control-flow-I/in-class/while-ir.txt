@@ -1,0 +1,12 @@
+begin1
+t1 = a
+t2 = b
+t3 = icmp sgt t1 t2
+br t3 b.true2 b.false3
+b.true2:
+t4 = 1
+a = t4
+br begin1
+b.false3:
+t5 = 2
+a = t5
