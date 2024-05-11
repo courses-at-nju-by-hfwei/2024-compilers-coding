@@ -89,11 +89,18 @@ public class CodeGenVisitor extends ControlBaseVisitor<String> {
     String falseLabel = getNewLabel("or.false");
     emitCode("br " + lhs + " " + trueLabel + " " + falseLabel);
 
+    String temp = getNewTemp();
+
     emitLabel(falseLabel);
     String rhs = visit(ctx.rhs);
-    String temp = getNewTemp();
     emitCode(temp + " = " + " OR " + lhs + " " + rhs);
+    String endLabel = getNewLabel("or.end");
+    emitLabel("br " + endLabel);
+
     emitLabel(trueLabel);
+    emitCode(temp + " = true");
+
+    emitLabel(endLabel);
 
     return temp;
   }

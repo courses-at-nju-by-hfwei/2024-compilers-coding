@@ -2,11 +2,14 @@ t1 =  NOT true
 t2 =  AND t1 false
 br t2 or.true1 or.false2
 or.false2:
-t3 =  icmp sgt a b
-t4 =  AND true t3
-t5 =  OR t2 t4
+t4 =  icmp sgt a b
+t5 =  AND true t4
+t3 =  OR t2 t5
+br or.end3:
 or.true1:
-br t5 b.true3 b.false4
-b.true3:
+t3 = true
+or.end3:
+br t3 b.true4 b.false5
+b.true4:
 a = b
-b.false4:
+b.false5:
