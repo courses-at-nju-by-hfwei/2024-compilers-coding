@@ -1,4 +1,10 @@
 if (true) {
  a = b;
- b = c;
+ if (true) {
+   c = d;
+ } else {
+   e = g;
+ }
+} else {
+  d = f;
 }

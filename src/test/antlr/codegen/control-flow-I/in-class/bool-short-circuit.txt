@@ -1,4 +1,4 @@
-while (true && false) {
-  a = 1;
+while (true || false) {
+  a = b;
 }
-a = 2;
+a = c;

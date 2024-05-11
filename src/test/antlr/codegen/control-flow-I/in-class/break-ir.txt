@@ -1,0 +1,26 @@
+begin1:
+br true b.true2 b.false3
+b.true2:
+a = null
+br b.false3
+br begin1
+b.false3:
+begin4:
+br true b.true5 b.false6
+b.true5:
+begin7:
+br false b.true8 b.false9
+b.true8:
+br true b.true10 b.false11
+b.true10:
+br b.false9
+b.false11:
+a = b
+br begin7
+b.false9:
+a = c
+br b.false6
+a = d
+br begin4
+b.false6:
+a = e

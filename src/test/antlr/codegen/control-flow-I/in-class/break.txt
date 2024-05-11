@@ -8,10 +8,10 @@ while (true) {
     if (true) {
       break;
     }
-    a = 1;
+    a = b;
   }
-  a = 2;
+  a = c;
   break;
-  a = 3;
+  a = d;
 }
-a = 4;
+a = e;

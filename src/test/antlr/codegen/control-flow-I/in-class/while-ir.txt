@@ -1,0 +1,14 @@
+begin1:
+br true b.true2 b.false3
+b.true2:
+a = b
+br true b.true4 b.false5
+b.true4:
+c = d
+br b.end6
+b.false5:
+e = f
+b.end6:
+br begin1
+b.false3:
+a = c
