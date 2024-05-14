@@ -71,11 +71,34 @@ public class CodeGenVisitor extends ControlBaseVisitor<String> {
   // bool -> lhs = bool && rhs = bool
   @Override
   public String visitAndExpr(ControlParser.AndExprContext ctx) {
+    // original version
+    //    String lhs = visit(ctx.lhs);
+    //    String rhs = visit(ctx.rhs);
+    //
+    //    String temp = getNewTemp();
+    //    emitCode(temp + " = " + "AND " + lhs + " " + rhs);
+    //
+    //    return temp;
+
+    // short-circuit version
     String lhs = visit(ctx.lhs);
-    String rhs = visit(ctx.rhs);
+
+    String trueLabel = getNewLabel("or.true");
+    String falseLabel = getNewLabel("or.false");
+    String endLabel = getNewLabel("or.end");
+    emitCode("br " + lhs + " " + trueLabel + " " + falseLabel);
 
     String temp = getNewTemp();
-    emitCode(temp + " = " + "AND " + lhs + " " + rhs);
+
+    emitLabel(falseLabel);
+    String rhs = visit(ctx.rhs);
+    emitCode(temp + " = OR " + lhs + " " + rhs);
+    emitCode("br " + endLabel);
+
+    emitLabel(trueLabel);
+    emitCode(temp + " = true");
+
+    emitLabel(endLabel);
 
     return temp;
   }
@@ -83,24 +106,27 @@ public class CodeGenVisitor extends ControlBaseVisitor<String> {
   // bool -> lhs = bool || rhs = bool
   @Override
   public String visitOrExpr(ControlParser.OrExprContext ctx) {
+    // original version
+    //    String lhs = visit(ctx.lhs);
+    //    String rhs = visit(ctx.rhs);
+    //
+    //    String temp = getNewTemp();
+    //    emitCode(temp + " = " + "OR " + lhs + " " + rhs);
+    //
+    //    return temp;
+
+    // short-circuit version (currently wrong!)
     String lhs = visit(ctx.lhs);
 
     String trueLabel = getNewLabel("or.true");
     String falseLabel = getNewLabel("or.false");
     emitCode("br " + lhs + " " + trueLabel + " " + falseLabel);
 
-    String temp = getNewTemp();
-
     emitLabel(falseLabel);
     String rhs = visit(ctx.rhs);
+    String temp = getNewTemp();
     emitCode(temp + " = " + "OR " + lhs + " " + rhs);
-    String endLabel = getNewLabel("or.end");
-    emitLabel("br " + endLabel);
-
     emitLabel(trueLabel);
-    emitCode(temp + " = true");
-
-    emitLabel(endLabel);
 
     return temp;
   }

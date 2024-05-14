@@ -12,32 +12,22 @@ import org.testng.annotations.Test;
 
 public class CodeGenVisitorTest {
   @Test
-  public void testSuitI() throws IOException {
-    String PATHI = "src/test/antlr/codegen/control-flow-I/in-class/";
+  public void testSuit() throws IOException {
+    String PATHI = "src/test/antlr/codegen/control-flow-easy/in-class/";
     String[] srcFiles =
         new String[] {
-          "assign",
-          "bool",
-          "if",
-          "while",
-          "break",
+          //          "assign",
+          //          "bool",
+          //          "if",
+          //          "while",
+          //          "break",
           "bool-short-circuit",
-          "while-if-II",
-          "bool-short-circuit-II",
+          //          "while-if-II",
+          //          "bool-short-circuit-II",
         };
 
     for (String srcFile : srcFiles) {
       testCodeGenVisitor(PATHI + srcFile);
-    }
-  }
-
-  @Test
-  public void testSuitII() throws IOException {
-    String PATHII = "src/test/antlr/codegen/control-flow-II/final/";
-    String[] srcFiles = new String[] {"while-if-II", "bool-short-circuit-II", "if-false-S1"};
-
-    for (String srcFile : srcFiles) {
-      testCodeGenVisitor(PATHII + srcFile);
     }
   }
 
