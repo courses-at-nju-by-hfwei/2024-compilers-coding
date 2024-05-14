@@ -1,0 +1,7 @@
+while (true) {
+  if (false) {
+    a = b;
+  } else {
+    c = d;
+  }
+}

@@ -11,27 +11,39 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.testng.annotations.Test;
 
 public class CodeGenVisitorTest {
-  private InputStream is = System.in;
-  private final String PATH = "src/test/antlr/codegen/control-flow-I/in-class/";
-  //  private final String PATH = "src/test/antlr/codegen/control-flow-I/final/";
-  private String irFile;
-
   @Test
-  public void testSuit() throws IOException {
+  public void testSuitI() throws IOException {
+    String PATHI = "src/test/antlr/codegen/control-flow-I/in-class/";
     String[] srcFiles =
-        new String[] {"assign", "bool", "if", "while", "break", "bool-short-circuit"};
-    // while-if-II.txt, bool-short-circuit-II.txt
+        new String[] {
+          "assign",
+          "bool",
+          "if",
+          "while",
+          "break",
+          "bool-short-circuit",
+          "while-if-II",
+          "bool-short-circuit-II",
+        };
 
     for (String srcFile : srcFiles) {
-      is = new FileInputStream(Path.of(PATH + srcFile + ".txt").toFile());
-      irFile = srcFile + "-ir";
-
-      testCodeGenVisitor();
+      testCodeGenVisitor(PATHI + srcFile);
     }
   }
 
   @Test
-  public void testCodeGenVisitor() throws IOException {
+  public void testSuitII() throws IOException {
+    String PATHII = "src/test/antlr/codegen/control-flow-II/final/";
+    String[] srcFiles = new String[] {"while-if-II", "bool-short-circuit-II", "if-false-S1"};
+
+    for (String srcFile : srcFiles) {
+      testCodeGenVisitor(PATHII + srcFile);
+    }
+  }
+
+  private void testCodeGenVisitor(String srcFile) throws IOException {
+    InputStream is = new FileInputStream(Path.of(srcFile + ".txt").toFile());
+
     CharStream input = CharStreams.fromStream(is);
     ControlLexer lexer = new ControlLexer(input);
     CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -39,7 +51,7 @@ public class CodeGenVisitorTest {
     ControlParser parser = new ControlParser(tokens);
     ParseTree tree = parser.prog();
 
-    CodeGenVisitor cg = new CodeGenVisitor(PATH + irFile + ".txt");
+    CodeGenVisitor cg = new CodeGenVisitor(srcFile + "-ir.txt");
     cg.visit(tree);
   }
 }

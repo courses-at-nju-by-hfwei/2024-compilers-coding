@@ -1,0 +1,15 @@
+L3begin:
+goto L4
+L4:
+ASSIGN:
+L5:
+goto L6
+L6:
+ASSIGN
+goto L3begin
+L7:
+ASSIGN
+goto L3begin:
+L2:
+ASSIGN
+L1:

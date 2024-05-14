@@ -1,9 +1,8 @@
 package codegen;
 
-import org.antlr.v4.runtime.tree.ParseTreeProperty;
-
 import java.io.FileWriter;
 import java.io.IOException;
+import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 public class CodeGenListener extends ControlBaseListener {
   private final ParseTreeProperty<String> trueLabel = new ParseTreeProperty<>();
@@ -26,9 +25,7 @@ public class CodeGenListener extends ControlBaseListener {
 
   @Override
   public void exitProg(ControlParser.ProgContext ctx) {
-    String code = String.format("%s%n%s:",
-        codeProperty.get(ctx.stat()),
-        nextLabel.get(ctx.stat()));
+    String code = String.format("%s%n%s:", codeProperty.get(ctx.stat()), nextLabel.get(ctx.stat()));
 
     codeProperty.put(ctx, code);
 
@@ -38,6 +35,46 @@ public class CodeGenListener extends ControlBaseListener {
   @Override
   public void exitAssignStat(ControlParser.AssignStatContext ctx) {
     codeProperty.put(ctx, "ASSIGN");
+  }
+
+  @Override
+  public void enterIfStat(ControlParser.IfStatContext ctx) {
+    trueLabel.put(ctx.bool(), getNewLabel());
+    falseLabel.put(ctx.bool(), nextLabel.get(ctx));
+    nextLabel.put(ctx.stat(), nextLabel.get(ctx));
+  }
+
+  @Override
+  public void exitIfStat(ControlParser.IfStatContext ctx) {
+    String code =
+        String.format(
+            "%s%n%s:%n%s",
+            codeProperty.get(ctx.bool()), trueLabel.get(ctx.bool()), codeProperty.get(ctx.stat()));
+
+    codeProperty.put(ctx, code);
+  }
+
+  @Override
+  public void enterIfElseStat(ControlParser.IfElseStatContext ctx) {
+    trueLabel.put(ctx.bool(), getNewLabel());
+    falseLabel.put(ctx.bool(), getNewLabel());
+    nextLabel.put(ctx.ifStat, nextLabel.get(ctx));
+    nextLabel.put(ctx.elseStat, nextLabel.get(ctx));
+  }
+
+  @Override
+  public void exitIfElseStat(ControlParser.IfElseStatContext ctx) {
+    String code =
+        String.format(
+            "%s%n%s:%n%s%n%s%n%s:%n%s",
+            codeProperty.get(ctx.bool()),
+            trueLabel.get(ctx.bool()),
+            codeProperty.get(ctx.ifStat),
+            "goto " + nextLabel.get(ctx),
+            falseLabel.get(ctx.bool()),
+            codeProperty.get(ctx.elseStat));
+
+    codeProperty.put(ctx, code);
   }
 
   @Override
@@ -51,31 +88,53 @@ public class CodeGenListener extends ControlBaseListener {
 
   @Override
   public void exitWhileStat(ControlParser.WhileStatContext ctx) {
-    String code = String.format("%s:%n%s%n%s:%n%s%n%s",
-        beginLabel.get(ctx),
-        codeProperty.get(ctx.bool()),
-        trueLabel.get(ctx.bool()),
-        codeProperty.get(ctx.stat()),
-        "goto " + beginLabel.get(ctx));
+    String code =
+        String.format(
+            "%s:%n%s%n%s:%n%s%n%s",
+            beginLabel.get(ctx),
+            codeProperty.get(ctx.bool()),
+            trueLabel.get(ctx.bool()),
+            codeProperty.get(ctx.stat()),
+            "goto " + beginLabel.get(ctx));
 
     codeProperty.put(ctx, code);
   }
 
   @Override
-  public void enterIfStat(ControlParser.IfStatContext ctx) {
-    trueLabel.put(ctx.bool(), getNewLabel());
-    falseLabel.put(ctx.bool(), nextLabel.get(ctx));
-    nextLabel.put(ctx.stat(), nextLabel.get(ctx));
+  public void enterSeqStat(ControlParser.SeqStatContext ctx) {
+    nextLabel.put(ctx.first, getNewLabel());
+    nextLabel.put(ctx.second, nextLabel.get(ctx));
   }
 
   @Override
-  public void exitIfStat(ControlParser.IfStatContext ctx) {
-    String code = String.format("%s%n%s:%n%s",
-        codeProperty.get(ctx.bool()),
-        trueLabel.get(ctx.bool()),
-        codeProperty.get(ctx.stat()));
+  public void exitSeqStat(ControlParser.SeqStatContext ctx) {
+    String code =
+        String.format(
+            "%s:%n%s:%n%s",
+            codeProperty.get(ctx.first), nextLabel.get(ctx.first), codeProperty.get(ctx.second));
 
     codeProperty.put(ctx, code);
+  }
+
+  @Override
+  public void exitTrueExpr(ControlParser.TrueExprContext ctx) {
+    codeProperty.put(ctx, "goto " + trueLabel.get(ctx));
+  }
+
+  @Override
+  public void exitFalseExpr(ControlParser.FalseExprContext ctx) {
+    codeProperty.put(ctx, "goto " + falseLabel.get(ctx));
+  }
+
+  @Override
+  public void enterNotExpr(ControlParser.NotExprContext ctx) {
+    trueLabel.put(ctx.bool(), falseLabel.get(ctx));
+    falseLabel.put(ctx.bool(), trueLabel.get(ctx));
+  }
+
+  @Override
+  public void exitNotExpr(ControlParser.NotExprContext ctx) {
+    codeProperty.put(ctx, codeProperty.get(ctx.bool()));
   }
 
   @Override
@@ -89,20 +148,20 @@ public class CodeGenListener extends ControlBaseListener {
 
   @Override
   public void exitAndExpr(ControlParser.AndExprContext ctx) {
-    String code = String.format("%s%n%s:%n%s",
-        codeProperty.get(ctx.lhs),
-        trueLabel.get(ctx.lhs),
-        codeProperty.get(ctx.rhs));
+    String code =
+        String.format(
+            "%s%n%s:%n%s",
+            codeProperty.get(ctx.lhs), trueLabel.get(ctx.lhs), codeProperty.get(ctx.rhs));
 
     codeProperty.put(ctx, code);
   }
 
   @Override
   public void exitOrExpr(ControlParser.OrExprContext ctx) {
-    String code = String.format("%s%n%s:%n%s",
-        codeProperty.get(ctx.lhs),
-        falseLabel.get(ctx.lhs),
-        codeProperty.get(ctx.rhs));
+    String code =
+        String.format(
+            "%s%n%s:%n%s",
+            codeProperty.get(ctx.lhs), falseLabel.get(ctx.lhs), codeProperty.get(ctx.rhs));
 
     codeProperty.put(ctx, code);
   }
@@ -118,22 +177,11 @@ public class CodeGenListener extends ControlBaseListener {
 
   @Override
   public void exitRelExpr(ControlParser.RelExprContext ctx) {
-    String code = String.format("if %s goto %s%ngoto %s",
-        ctx.getText(),
-        trueLabel.get(ctx),
-        falseLabel.get(ctx));
+    String code =
+        String.format(
+            "if %s goto %s%ngoto %s", ctx.getText(), trueLabel.get(ctx), falseLabel.get(ctx));
 
     codeProperty.put(ctx, code);
-  }
-
-  @Override
-  public void exitTrueExpr(ControlParser.TrueExprContext ctx) {
-    codeProperty.put(ctx, "goto " + trueLabel.get(ctx));
-  }
-
-  @Override
-  public void exitFalseExpr(ControlParser.FalseExprContext ctx) {
-    codeProperty.put(ctx, "goto " + falseLabel.get(ctx));
   }
 
   private void dump(String code) {

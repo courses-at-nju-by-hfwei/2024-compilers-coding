@@ -63,7 +63,7 @@ public class CodeGenVisitor extends ControlBaseVisitor<String> {
     String bool = visit(ctx.bool());
 
     String temp = getNewTemp();
-    emitCode(temp + " = " + " NOT " + bool);
+    emitCode(temp + " = " + "NOT " + bool);
 
     return temp;
   }
@@ -75,7 +75,7 @@ public class CodeGenVisitor extends ControlBaseVisitor<String> {
     String rhs = visit(ctx.rhs);
 
     String temp = getNewTemp();
-    emitCode(temp + " = " + " AND " + lhs + " " + rhs);
+    emitCode(temp + " = " + "AND " + lhs + " " + rhs);
 
     return temp;
   }
@@ -93,7 +93,7 @@ public class CodeGenVisitor extends ControlBaseVisitor<String> {
 
     emitLabel(falseLabel);
     String rhs = visit(ctx.rhs);
-    emitCode(temp + " = " + " OR " + lhs + " " + rhs);
+    emitCode(temp + " = " + "OR " + lhs + " " + rhs);
     String endLabel = getNewLabel("or.end");
     emitLabel("br " + endLabel);
 
@@ -121,7 +121,7 @@ public class CodeGenVisitor extends ControlBaseVisitor<String> {
         };
 
     String temp = getNewTemp();
-    emitCode(temp + " = " + " icmp " + cond + " " + lhs + " " + rhs);
+    emitCode(temp + " = " + "icmp " + cond + " " + lhs + " " + rhs);
 
     return temp;
   }

@@ -1,5 +1,6 @@
 while (true) {
   if (false) {
-    x = 1;
+    a = b;
   }
 }
+

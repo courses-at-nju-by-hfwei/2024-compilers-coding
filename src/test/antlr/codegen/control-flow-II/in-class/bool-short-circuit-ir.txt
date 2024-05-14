@@ -1,0 +1,8 @@
+goto L4
+L4:
+goto L2
+L3:
+ASSIGN:
+L2:
+ASSIGN
+L1:

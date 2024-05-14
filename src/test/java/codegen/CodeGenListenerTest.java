@@ -1,35 +1,45 @@
 package codegen;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-
 public class CodeGenListenerTest {
-  InputStream is = System.in;
+  @Test
+  public void testSuit() throws IOException {
+    String PATH = "src/test/antlr/codegen/control-flow-II/in-class/";
 
-  private final String PATH = "src/test/antlr/codegen/control-flow-II/";
-  private String srcFile;
-  private String codeFile;
+    String[] srcFiles =
+        new String[] {
+          "bool",
+          "bool-short-circuit",
+          "bool-short-circuit-II",
+          "if-bool",
+          "if-else",
+          "if-else-assign",
+          "if-false-S1",
+          "if-if-else-else",
+          "if-true-if-false",
+          "while",
+          "while-if-else",
+          "while-if-II",
+        };
 
-  @BeforeMethod
-  public void setUp() throws IOException {
-    // bool-final.txt, if-final.txt, while-final.txt, bool-short-circuit-final.txt
-    // while-if-final-II.txt, bool-short-circuit-II-final.txt
-    srcFile = "bool-short-circuit-II";
-    is = new FileInputStream(Path.of(PATH + srcFile + ".txt").toFile());
+    for (String srcFile : srcFiles) {
+      testCodeGenListener(PATH + srcFile);
+    }
   }
 
-  @Test
-  public void testCodeGenListener() throws IOException {
+  private void testCodeGenListener(String srcFile) throws IOException {
+    InputStream is = new FileInputStream(Path.of(srcFile + ".txt").toFile());
+
     CharStream input = CharStreams.fromStream(is);
     ControlLexer lexer = new ControlLexer(input);
     CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -37,8 +47,7 @@ public class CodeGenListenerTest {
     ControlParser parser = new ControlParser(tokens);
     ParseTree tree = parser.prog();
 
-    codeFile = srcFile + "-code";
-    CodeGenListener cg = new CodeGenListener(PATH + codeFile + ".txt");
+    CodeGenListener cg = new CodeGenListener(srcFile + "-ir.txt");
     ParseTreeWalker walker = new ParseTreeWalker();
     walker.walk(cg, tree);
   }

@@ -1,0 +1,9 @@
+if (true) {
+  if (true) {
+    a = b;
+  } else {
+    c = d;
+  }
+} else {
+  e = f;
+}

@@ -1,0 +1,11 @@
+L2begin:
+goto L3
+L3:
+goto L5
+L4:
+ASSIGN
+goto L2begin
+L5:
+ASSIGN
+goto L2begin
+L1:

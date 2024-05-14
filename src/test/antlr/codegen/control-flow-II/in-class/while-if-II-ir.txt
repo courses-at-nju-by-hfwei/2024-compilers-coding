@@ -6,4 +6,3 @@ L4:
 ASSIGN
 goto L2begin
 L1:
-

@@ -1,12 +1,10 @@
 if (true) {
  a = b;
- b = c;
  if (false) {
-   x = 1;
-   y = 2;
+   c = d;
  } else {
-   z = 3;
+   e = f;
  }
 } else {
- c = d;
+ f = g;
 }

@@ -1,0 +1,11 @@
+br true or.true1 or.false2
+or.false2:
+t1 = OR true false
+br or.end3:
+or.true1:
+t1 = true
+or.end3:
+br t1 b.true4 b.false5
+b.true4:
+a = b
+b.false5:

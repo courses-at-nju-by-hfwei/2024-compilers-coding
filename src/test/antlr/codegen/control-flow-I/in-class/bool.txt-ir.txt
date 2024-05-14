@@ -1,0 +1,11 @@
+goto L3
+L4:
+goto L3
+L3:
+goto L5
+L5:
+if a>b goto L2
+goto L1
+L2:
+ASSIGN
+L1:

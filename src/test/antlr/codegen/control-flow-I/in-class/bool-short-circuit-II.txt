@@ -1,0 +1,3 @@
+if (true || false) {
+  a = b;
+}
