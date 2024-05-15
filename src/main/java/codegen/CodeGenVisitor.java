@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.Token;
 
 // String: temp variables
 public class CodeGenVisitor extends ControlBaseVisitor<String> {
-  private Deque<String> breakLabels = new ArrayDeque<>();
+  private final Deque<String> breakLabels = new ArrayDeque<>();
   private final FileWriter fileWriter;
   private int tempCounter = 1;
   private int labelCounter = 1;
@@ -120,13 +120,19 @@ public class CodeGenVisitor extends ControlBaseVisitor<String> {
 
     String trueLabel = getNewLabel("or.true");
     String falseLabel = getNewLabel("or.false");
+    String endLabel = getNewLabel("or.end");
     emitCode("br " + lhs + " " + trueLabel + " " + falseLabel);
 
     emitLabel(falseLabel);
     String rhs = visit(ctx.rhs);
     String temp = getNewTemp();
-    emitCode(temp + " = " + rhs);
+    emitCode(temp + " = " + rhs); // temp = OR lhs rhs
+    emitCode("br " + endLabel);
+
     emitLabel(trueLabel);
+    emitCode(temp + " = true");
+
+    emitLabel(endLabel);
 
     return temp;
   }
