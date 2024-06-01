@@ -1,10 +1,14 @@
-package codegen;
+package codegen.easycontrol;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import org.antlr.v4.runtime.Token;
+
+import codegen.ControlBaseVisitor;
+import codegen.ControlLexer;
+import codegen.ControlParser;
 
 // String: temp variables
 public class CodeGenVisitor extends ControlBaseVisitor<String> {

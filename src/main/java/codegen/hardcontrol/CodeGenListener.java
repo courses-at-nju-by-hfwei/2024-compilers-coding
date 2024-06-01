@@ -1,8 +1,11 @@
-package codegen;
+package codegen.hardcontrol;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+
+import codegen.ControlBaseListener;
+import codegen.ControlParser;
 
 public class CodeGenListener extends ControlBaseListener {
   private final ParseTreeProperty<String> trueLabel = new ParseTreeProperty<>();
